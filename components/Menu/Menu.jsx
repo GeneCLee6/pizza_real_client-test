@@ -73,7 +73,7 @@ const Menu = () => {
 				</Box>
 				{/* red error */}
 			</Flex>
-			{(hour < OpeningHours[day].mode24[0].hour ||
+			{/* {(hour < OpeningHours[day].mode24[0].hour ||
 				hour > OpeningHours[day].mode24[1].hour ||
 				(hour == OpeningHours[day].mode24[0].hour &&
 					minute < OpeningHours[day].mode24[0].minute) ||
@@ -95,7 +95,7 @@ const Menu = () => {
 						</strong>
 					</Text>
 				</Box>
-			)}
+			)} */}
 
 			<Box
 				position="relative"
