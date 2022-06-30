@@ -173,7 +173,11 @@ const Menu = () => {
 				justify="center"
 			>
 				<Box w="1800px">
-					<Box px={["5px", "10px", "40px", "150px"]} backgroundColor="gray.700">
+					<Box
+						w="100%"
+						px={["5px", "10px", "40px", "150px"]}
+						backgroundColor="gray.700"
+					>
 						<Footer onOpen={onOpen} />
 					</Box>
 				</Box>
