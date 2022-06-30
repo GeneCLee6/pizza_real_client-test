@@ -83,9 +83,12 @@ const Menu = () => {
 					px={["5px", "10px", "40px", "150px"]}
 					margin="30px auto"
 					maxW="1800px"
-					textAlign="center"
 				>
-					<Text color="red" fontSize={{ base: "24px", md: "30px" }}>
+					<Text
+						color="red"
+						fontSize={{ base: "24px", md: "30px" }}
+						textAlign="center"
+					>
 						<strong>
 							Our Opening Hours： {OpeningHours[day].mode12[0]} -{" "}
 							{OpeningHours[day].mode12[1]}
