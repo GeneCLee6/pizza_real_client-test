@@ -21,18 +21,18 @@ import {
 	useDisclosure,
 	ModalBody,
 	Button,
-} from '@chakra-ui/react';
-import NextLink from 'next/link';
-import { useState, useEffect, useContext } from 'react';
-import Header from '../Header';
-import AddressForm from './AddressForm';
-import OrderList from './OrderList';
-import PaymentSuccess from './PaymentSuccess';
-import PaypalCheckout from './PaypalCheckout';
-import { DeliveryFees } from '../../configs/constants';
-import { GlobalContext } from '../../contexts/GlobalProvider';
-import useOperations from '../../hooks/useOperation';
-import { requestCreateOrder } from '../../services/orders';
+} from "@chakra-ui/react";
+import NextLink from "next/link";
+import { useState, useEffect, useContext } from "react";
+import Header from "../Header";
+import AddressForm from "./AddressForm";
+import OrderList from "./OrderList";
+import PaymentSuccess from "./PaymentSuccess";
+import PaypalCheckout from "./PaypalCheckout";
+import { DeliveryFees } from "../../configs/constants";
+import { GlobalContext } from "../../contexts/GlobalProvider";
+import useOperations from "../../hooks/useOperation";
+import { requestCreateOrder } from "../../services/orders";
 
 const Checkout = () => {
 	const {
@@ -40,7 +40,7 @@ const Checkout = () => {
 		clearCart,
 	} = useContext(GlobalContext);
 	const [isMounted, setIsMounted] = useState(false);
-	const [shoppingOption, setShoppingOption] = useState('delivery');
+	const [shoppingOption, setShoppingOption] = useState("delivery");
 	const [subtotal, setSubtotal] = useState(0);
 	const [shippingFee, setShippingFee] = useState(0);
 	const [isOnCheckout, setIsOnCheckout] = useState(false);
@@ -50,15 +50,15 @@ const Checkout = () => {
 	const [isCheckoutComplete, setIsCheckoutComplete] = useState(false);
 	const [isShowSuccess, setIsShowSuccess] = useState(false);
 	const [deliveryRequirement, setDeliveryRequirement] = useState(null);
-	const [AlertContent, setAlertContent] = useState('');
+	const [AlertContent, setAlertContent] = useState("");
 	const [orderNumber, setOrderNumber] = useState(null);
 	const [prepareTime, setPrepareTime] = useState([]);
-	const [name, setName] = useState('');
-	const [phone, setPhone] = useState('');
-	const [email, setEmail] = useState('');
-	const [comment, setComment] = useState('');
-	const [address, setAddress] = useState('');
-	const [suburb, setSuburb] = useState('');
+	const [name, setName] = useState("");
+	const [phone, setPhone] = useState("");
+	const [email, setEmail] = useState("");
+	const [comment, setComment] = useState("");
+	const [address, setAddress] = useState("");
+	const [suburb, setSuburb] = useState("");
 	const { currentOperation } = useOperations();
 	const [isOnline, setIsOnline] = useState(true);
 	const pickupOptionDescription = `Current pickup time is about ${
@@ -81,8 +81,8 @@ const Checkout = () => {
 		if (suburb) {
 			setDeliveryRequirement(
 				DeliveryFees.find((r) =>
-					r.suburbs.map((s) => s.toLowerCase()).includes(suburb.toLowerCase())
-				)
+					r.suburbs.map((s) => s.toLowerCase()).includes(suburb.toLowerCase()),
+				),
 			);
 			setSuburb(suburb);
 			setAddress(addressForm.address);
@@ -103,24 +103,24 @@ const Checkout = () => {
 	};
 
 	useEffect(() => {
-		if (deliveryRequirement && shoppingOption === 'delivery')
+		if (deliveryRequirement && shoppingOption === "delivery")
 			setShippingFee(deliveryRequirement.deliverFee);
 	}, [deliveryRequirement, shoppingOption]);
 
 	useEffect(() => {
 		if (!isMounted) {
-			setSuburb('');
+			setSuburb("");
 			setIsMounted(true);
 		}
 		if (checkoutActions && !isCheckoutComplete) {
-			if (shoppingOption === 'delivery') {
+			if (shoppingOption === "delivery") {
 				if (currentOperation) setPrepareTime(currentOperation[0].deliverTime);
 				if (subtotal < deliveryRequirement?.minOrderCost && address) {
-					setAlertContent('minOrder');
+					setAlertContent("minOrder");
 					onOpen();
 				}
 				if (!deliveryRequirement && address) {
-					setAlertContent('outerSuburb');
+					setAlertContent("outerSuburb");
 					onOpen();
 				}
 				if (
@@ -141,9 +141,9 @@ const Checkout = () => {
 				return;
 			}
 
-			if (shoppingOption === 'pickup') {
-				setAddress('');
-				setSuburb('');
+			if (shoppingOption === "pickup") {
+				setAddress("");
+				setSuburb("");
 				if (currentOperation) setPrepareTime(currentOperation[0].pickupTime);
 				setShippingFee(0);
 				if (isValidAddressForm && !isEmptyCart) {
@@ -162,10 +162,10 @@ const Checkout = () => {
 
 		const onCheckoutComplete = () => {
 			const order = {
-				status: 'pending',
+				status: "pending",
 				isPaid: true,
-				payMethod: 'payPal',
-				orderType: shoppingOption === 'pickup' ? 'pick up' : shoppingOption,
+				payMethod: "payPal",
+				orderType: shoppingOption === "pickup" ? "pick up" : shoppingOption,
 				totalPrice: totalPrice + shippingFee,
 				comment,
 				deliveryFee: shippingFee.toFixed(2),
@@ -174,41 +174,41 @@ const Checkout = () => {
 				phone,
 				email,
 				name,
-				coupon: '',
+				coupon: "",
 				readyTime1:
-					shoppingOption === 'pickup'
+					shoppingOption === "pickup"
 						? currentOperation[0].pickupTime[0]
 						: currentOperation[0].deliverTime[0],
 				readyTime2:
-					shoppingOption === 'pickup'
+					shoppingOption === "pickup"
 						? currentOperation[0].pickupTime[1]
 						: currentOperation[0].deliverTime[1],
 				dishes: cart.map((c) => ({
 					...c,
-					base: c.base ? c.base : '',
-					size: c.size ? c.size : '',
-					pastaChoice: c.pastaChoice ? c.pastaChoice.toLowerCase() : '',
+					base: c.base ? c.base : "",
+					size: c.size ? c.size : "",
+					pastaChoice: c.pastaChoice ? c.pastaChoice.toLowerCase() : "",
 					secondHalf: c.secondHalf.length
 						? c.secondHalf[0]
-						: 'No Second half pizza',
+						: "No Second half pizza",
 					secondHalfPizzaEndSpecial1: c.secondHalfPizzaEndSpecial1.length
 						? c.secondHalfPizzaEndSpecial1[0]
-						: 'No Second half pizza',
+						: "No Second half pizza",
 					secondHalfPizzaEndSpecial2: c.secondHalfPizzaEndSpecial2.length
 						? c.secondHalfPizzaEndSpecial2[0]
-						: 'No Second half pizza',
+						: "No Second half pizza",
 					secondHalfPizzaEndSpecial3: c.secondHalfPizzaEndSpecial3.length
 						? c.secondHalfPizzaEndSpecial3[0]
-						: 'No Second half pizza',
+						: "No Second half pizza",
 					secondHalfPizzaCombo1: c.secondHalfPizzaCombo1.length
 						? c.secondHalfPizzaCombo1[0]
-						: 'No Second half pizza',
+						: "No Second half pizza",
 					secondHalfPizzaCombo2: c.secondHalfPizzaCombo2.length
 						? c.secondHalfPizzaCombo2[0]
-						: 'No Second half pizza',
+						: "No Second half pizza",
 					secondHalfPizzaCombo3: c.secondHalfPizzaCombo3.length
 						? c.secondHalfPizzaCombo3[0]
-						: 'No Second half pizza',
+						: "No Second half pizza",
 					price: c.currentPrice,
 				})),
 			};
@@ -270,7 +270,7 @@ const Checkout = () => {
 					<ModalCloseButton
 						borderRadius="50px"
 						backgroundColor="gray.300"
-						_focus={{ boxShadow: 'none' }}
+						_focus={{ boxShadow: "none" }}
 						zIndex="2"
 					/>
 
@@ -278,7 +278,7 @@ const Checkout = () => {
 						<VStack>
 							<Alert status="error" display="block">
 								<AlertIcon />
-								{AlertContent === 'minOrder' ? (
+								{AlertContent === "minOrder" ? (
 									<>
 										<AlertTitle>
 											We couldn&apos;t checkout your order.
@@ -301,9 +301,9 @@ const Checkout = () => {
 				</ModalContent>
 			</Modal>
 			<Flex direction="column" justify="center">
-				<Flex backgroundColor={'black'} justify="center">
+				<Flex backgroundColor={"black"} justify="center">
 					<Box w="1800px">
-						<Box w="100%" px={['5px', '10px', '40px', '150px']}>
+						<Box w="100%" px={["5px", "10px", "40px", "150px"]}>
 							<Header />
 						</Box>
 					</Box>
@@ -331,11 +331,11 @@ const Checkout = () => {
 							</Flex>
 							<Divider mt="5" mb="12" borderColor="#828282" />
 							<Flex
-								direction={['column', 'column', 'column', 'row']}
+								direction={["column", "column", "column", "row"]}
 								align="flex-start"
 							>
 								<Box>
-									<Box w={['100%', '100%', '90%', '80%']}>
+									<Box w={["100%", "100%", "90%", "80%"]}>
 										<AddressForm
 											onChange={onChangeAddressForm}
 											isOnCheckout={isOnCheckout}
@@ -345,26 +345,28 @@ const Checkout = () => {
 										/>
 									</Box>
 
-									<Box mt="80px" display={['none', 'none', 'none', 'block']}>
+									<Box mt="80px" display={["none", "none", "none", "block"]}>
 										<Flex direction="column">
 											<Text color="red" fontWeight="bold" fontSize="lg">
 												Note:&nbsp;
 											</Text>
 											<Text fontSize="lg">
-												{shoppingOption === 'delivery'
+												{shoppingOption === "delivery"
 													? deliveryOptionDescription
 													: pickupOptionDescription}
 											</Text>
-											<Text fontSize="lg">
-												Current Area minimum order is{' '}
-												{deliveryRequirement?.minOrderCost}
-											</Text>
+											{shoppingOption === "delivery" && suburb && (
+												<Text fontSize="lg">
+													Current Area minimum order is $
+													{deliveryRequirement?.minOrderCost}
+												</Text>
+											)}
 										</Flex>
 									</Box>
 								</Box>
 								<Box
-									w={['100%', '100%', '100%', '40%']}
-									my={['10', '10', '10', '0']}
+									w={["100%", "100%", "100%", "40%"]}
+									my={["10", "10", "10", "0"]}
 									py="5"
 									px="3"
 									borderRadius="20px"
@@ -421,19 +423,19 @@ const Checkout = () => {
 										/>
 									</Box>
 								</Box>
-								<Box display={['block', 'block', 'block', 'none']} mt="5">
+								<Box display={["block", "block", "block", "none"]} mt="5">
 									<Flex justify="center" direction="column">
 										<Text color="red" fontWeight="bold" fontSize="lg">
 											Note:&nbsp;
 										</Text>
 										<Text fontSize="lg">
-											{shoppingOption === 'delivery'
+											{shoppingOption === "delivery"
 												? deliveryOptionDescription
 												: pickupOptionDescription}
 											.
 										</Text>
 										<Text fontSize="lg">
-											Current Area minimum order is{' '}
+											Current Area minimum order is{" "}
 											{deliveryRequirement?.minOrderCost}
 										</Text>
 									</Flex>

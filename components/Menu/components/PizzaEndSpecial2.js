@@ -13,20 +13,20 @@ import {
 	AccordionIcon,
 	FormControl,
 	Flex,
-} from '@chakra-ui/react';
-import { Field } from 'formik';
-import { retrieveItemPrice, plusPriceFormatter } from '../../../utils/helper';
-import { useExtraToppings } from '../../../hooks/useTopping';
-import { useComboSecondHalfPizza } from '../../../hooks/useDish';
-import { useStandardPizza } from '../../../hooks/useDish';
-import { SoftDrink, CannedDrink, PizzaBase } from '../../../configs/constants';
+} from "@chakra-ui/react";
+import { Field } from "formik";
+import { retrieveItemPrice, plusPriceFormatter } from "../../../utils/helper";
+import { useExtraToppings } from "../../../hooks/useTopping";
+import { useComboSecondHalfPizza } from "../../../hooks/useDish";
+import { useStandardPizza } from "../../../hooks/useDish";
+import { SoftDrink, CannedDrink, PizzaBase } from "../../../configs/constants";
 
 const newPizzaBase = PizzaBase.filter(
-	(item) => item.name != 'gluten free (small size only)'
+	(item) => item.name != "gluten free (small size only)",
 );
 
 const PizzaEndSpecial2 = ({ name, values }) => {
-	const { data: pizzaExtraToppings } = useExtraToppings('pizza');
+	const { data: pizzaExtraToppings } = useExtraToppings("pizza");
 	const { data: secondHalfPizzaOptions } = useComboSecondHalfPizza(name);
 	const { data: standardPizzas } = useStandardPizza(name);
 	//	const selectedSize = values?.size || 'small';
@@ -54,7 +54,7 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 									<RadioGroup {...rest} id="pizzaEndSpecial2">
 										<VStack align="start" pl="2" gap={2}>
 											{standardPizzas?.map((name, index) => {
-												if (name !== 'No Second half pizza') {
+												if (name !== "No Second half pizza") {
 													return (
 														<Radio
 															key={index}
@@ -100,12 +100,12 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 						{({ field }) => {
 							const { onChange, ...rest } = field;
 							if (rest.value.trim()) {
-								if (values.baseEndSpecial1 === 'normal crust') {
+								if (values.baseEndSpecial2 === "normal crust") {
 									values.basePriceEndSpecial2 = 0;
-									console.log('here1');
+									console.log("here1");
 								} else {
 									values.basePriceEndSpecial2 = 1;
-									console.log('here2');
+									console.log("here2");
 								}
 							}
 							return (
@@ -127,7 +127,7 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 														>
 															{name}
 														</Text>
-														{name !== 'normal crust' && (
+														{name !== "normal crust" && (
 															<Text fontWeight="600" fontSize="15px" ml={4}>
 																{plusPriceFormatter(1)}
 															</Text>
@@ -166,23 +166,23 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 								values.extraToppingsPricesEndSpecial2 = toppings.map(
 									(toppingName) => {
 										const pizzaExtraTopping = pizzaExtraToppings.filter(
-											(topping) => topping.toppingName === toppingName
+											(topping) => topping.toppingName === toppingName,
 										)[0];
 
 										let price = 0;
-										if (name === 'Friday & Saturday Special 3') {
+										if (name === "Friday & Saturday Special 3") {
 											price = retrieveItemPrice(
 												pizzaExtraTopping.prices,
-												'family'
+												"family",
 											);
 										} else {
 											price = retrieveItemPrice(
 												pizzaExtraTopping.prices,
-												'large'
+												"large",
 											);
 										}
 										return price;
-									}
+									},
 								);
 
 								return (
@@ -192,10 +192,10 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 												{pizzaExtraToppings?.map(
 													({ toppingName, prices }, index) => {
 														let itemPrice = 0;
-														if (name === 'Friday & Saturday Special 3') {
-															itemPrice = retrieveItemPrice(prices, 'family');
+														if (name === "Friday & Saturday Special 3") {
+															itemPrice = retrieveItemPrice(prices, "family");
 														} else {
-															itemPrice = retrieveItemPrice(prices, 'large');
+															itemPrice = retrieveItemPrice(prices, "large");
 														}
 														return (
 															<Checkbox
@@ -227,7 +227,7 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 																</Flex>
 															</Checkbox>
 														);
-													}
+													},
 												)}
 											</VStack>
 										</CheckboxGroup>
@@ -266,7 +266,7 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 								}
 								if (values.secondHalfPizzaEndSpecial2.length === 0) {
 									values.secondHalfPriceEndSpecial2 = 0;
-									values.secondHalfPizzaExtraToppingsEndSpecial2 = '';
+									values.secondHalfPizzaExtraToppingsEndSpecial2 = "";
 									values.secondHalfPizzaExtraToppingsPricesEndSpecial2 = [];
 								}
 
@@ -275,7 +275,7 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 										<RadioGroup {...rest} id="secondHalfPizzaEndSpecial2">
 											<VStack align="start" pl="2" gap={2}>
 												{secondHalfPizzaOptions?.map(({ name }, index) => {
-													if (name !== 'No Second half pizza') {
+													if (name !== "No Second half pizza") {
 														return (
 															<Checkbox
 																key={index}
@@ -334,25 +334,24 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 							{({ field }) => {
 								const { onChange, ...rest } = field;
 								const toppings = [...rest.value];
-								values.secondHalfPizzaExtraToppingsPricesEndSpecial2 = toppings.map(
-									(toppingName) => {
+								values.secondHalfPizzaExtraToppingsPricesEndSpecial2 =
+									toppings.map((toppingName) => {
 										const pizzaExtraTopping = pizzaExtraToppings.filter(
-											(topping) => topping.toppingName === toppingName
+											(topping) => topping.toppingName === toppingName,
 										)[0];
 										let price = 0;
-										if (name === 'Friday & Saturday Special 3') {
+										if (name === "Friday & Saturday Special 3") {
 											price =
-												retrieveItemPrice(pizzaExtraTopping.prices, 'family') /
+												retrieveItemPrice(pizzaExtraTopping.prices, "family") /
 												2;
 										} else {
 											price =
-												retrieveItemPrice(pizzaExtraTopping.prices, 'large') /
+												retrieveItemPrice(pizzaExtraTopping.prices, "large") /
 												2;
 										}
 
 										return price;
-									}
-								);
+									});
 
 								return (
 									<FormControl>
@@ -364,12 +363,12 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 												{pizzaExtraToppings?.map(
 													({ toppingName, prices }, index) => {
 														let itemPrice = 0;
-														if (name === 'Friday & Saturday Special 3') {
+														if (name === "Friday & Saturday Special 3") {
 															itemPrice =
-																retrieveItemPrice(prices, 'family') / 2;
+																retrieveItemPrice(prices, "family") / 2;
 														} else {
 															itemPrice =
-																retrieveItemPrice(prices, 'large') / 2;
+																retrieveItemPrice(prices, "large") / 2;
 														}
 														return (
 															<Checkbox
@@ -399,7 +398,7 @@ const PizzaEndSpecial2 = ({ name, values }) => {
 																</Flex>
 															</Checkbox>
 														);
-													}
+													},
 												)}
 											</VStack>
 										</CheckboxGroup>
